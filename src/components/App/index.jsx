@@ -11,17 +11,17 @@ const COLOR_COUNT = 4;
 
 // Color palette
 const COLORS = [
-  "#1C4966",
-  "#7BCFDE",
-  "#005FB2",
-  "#629CDB",
-  "#3D996D",
-  "#C1DD6D",
-  "#FF683E",
-  "#EA476A",
-  "#FF64A2",
-  "#FFCA51",
-  "#FFFBBC",
+  '#1C4966',
+  '#7BCFDE',
+  '#005FB2',
+  '#629CDB',
+  '#3D996D',
+  '#C1DD6D',
+  '#FF683E',
+  '#EA476A',
+  '#FF64A2',
+  '#FFCA51',
+  '#FFFBBC',
 ];
 
 // Select random colors from the palette
@@ -120,9 +120,7 @@ function App() {
           <div
             key={rowIndex}
             className={style.row}
-            style={{
-              height: `${100 / ROW_COUNT}%`,
-            }}>
+            style={{ height: `${100 / ROW_COUNT}%` }}>
             {row.map((colorIndex, colIndex) => (
               <div
                 key={`${rowIndex}-${colIndex}`}

@@ -7,6 +7,7 @@ import {
 } from '@/config';
 import useGame from '@/hooks/useGame';
 import usePalette from '@/hooks/usePalette';
+import { getWinDuration } from '@/utils/winSequence';
 import style from './index.module.scss';
 import Header from '../Header';
 
@@ -14,6 +15,7 @@ function App() {
   const {
     grid,
     flooded,
+    floodOrder,
     moveCount,
     par,
     isComplete,
@@ -45,12 +47,19 @@ function App() {
         <div className={style.board}>
           <Board
             flooded={flooded}
+            floodOrder={floodOrder}
             grid={grid}
             isComplete={isComplete}
             isLost={isLost}
+            moveCount={moveCount}
             palette={palette}
             onCellClick={floodWith} />
           {isLost && <RetryButton onClick={restart} />}
+          {isComplete && (
+            <RetryButton
+              delay={getWinDuration(moveCount)}
+              onClick={restart} />
+          )}
         </div>
         <Footer
           isLost={isLost}

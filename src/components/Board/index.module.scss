@@ -26,11 +26,23 @@
   .inactive & {
     cursor: default;
   }
+
+  // Play the moves back in reverse, revealing each in its heat color
+  .won & {
+    animation: reveal 0ms var(--reveal-delay) ease-out both;
+  }
+}
+
+@keyframes reveal {
+  to {
+    background-color: var(--heat-color);
+    background-image: var(--heat-pattern);
+  }
 }
 
 // Transpose the board so it stands tall, keeping the origin top left
 @media #{vars.$portrait} {
-  .grid {
+  .wrap {
     flex-direction: row;
   }
 

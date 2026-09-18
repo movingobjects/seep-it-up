@@ -9,16 +9,26 @@
   font-size: 250px;
   line-height: 200px;
   cursor: pointer;
-  transition: transform 0.1s ease-out;
   background: none;
   appearance: none;
   border: none;
 
   &:hover {
-    filter: brightness(0.75);
+    opacity: 0.75;
   }
 
   &:active {
-    filter: brightness(0.5);
+    opacity: 0.5;
+  }
+
+  &.delayed {
+    animation: appear 300ms var(--appear-delay) ease-out both;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    pointer-events: none;
   }
 }

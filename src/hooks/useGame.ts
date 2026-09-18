@@ -7,6 +7,7 @@ import {
 } from '@/config';
 import type {
   ColorIndex,
+  FloodOrder,
   Grid,
   Mask,
 } from '@/types';
@@ -21,6 +22,7 @@ import calcPar from '@/utils/par';
 interface GameState {
   grid: Grid;
   flooded: Mask;
+  floodOrder: FloodOrder;
   moveCount: number;
   par: number;
 }
@@ -36,12 +38,25 @@ interface NewGameAction {
 
 type GameAction = FloodAction | NewGameAction;
 
+// Stamp newly flooded cells with the move that flooded them
+function updateFloodOrder(
+  floodOrder: FloodOrder,
+  flooded: Mask,
+  move: number,
+): FloodOrder {
+  return floodOrder.map((row, r) => row.map((step, c) => (
+    (step === -1 && flooded[r][c]) ? move : step
+  )));
+}
+
 function createGame(): GameState {
   const grid = createGrid(ROW_COUNT, COL_COUNT, COLOR_COUNT);
+  const flooded = getFloodedMask(grid, ORIGIN);
 
   return {
     grid,
-    flooded: getFloodedMask(grid, ORIGIN),
+    flooded,
+    floodOrder: flooded.map((row) => row.map((isFlooded) => (isFlooded ? 0 : -1))),
     moveCount: 0,
     par: calcPar(grid, ORIGIN),
   };
@@ -61,19 +76,22 @@ function reducer(
   switch (action.type) {
     case 'flood': {
       const {
-        grid, flooded,
+        grid, flooded, floodOrder, moveCount,
       } = state;
       const isSameColor = grid[ORIGIN[0]][ORIGIN[1]] === action.color;
 
       if (isSameColor || isGridComplete(grid) || isGameLost(state)) return state;
 
       const nextGrid = flood(grid, flooded, action.color);
+      const nextFlooded = getFloodedMask(nextGrid, ORIGIN);
+      const nextMoveCount = moveCount + 1;
 
       return {
         ...state,
         grid: nextGrid,
-        flooded: getFloodedMask(nextGrid, ORIGIN),
-        moveCount: state.moveCount + 1,
+        flooded: nextFlooded,
+        floodOrder: updateFloodOrder(floodOrder, nextFlooded, nextMoveCount),
+        moveCount: nextMoveCount,
       };
     }
 

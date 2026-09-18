@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import {
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import calcPar from '@/utils/par.js';
@@ -115,6 +116,11 @@ function App() {
   const [gamePalette, setGamePalette] = useState(getRandomPalette());
   const [moveCount, setMoveCount] = useState(0);
 
+  const floodedKeys = useMemo(() => {
+    const flooded = getFloodedRegion(grid, grid[ORIGIN.row][ORIGIN.col]);
+    return new Set(flooded.map(([row, col]) => `${row},${col}`));
+  }, [grid]);
+
   useEffect(() => {
     if (getIsGridComplete(grid)) {
       setIsComplete(true);
@@ -165,7 +171,8 @@ function App() {
         '--padding': PADDING,
         '--controls-height': CONTROLS_HEIGHT,
         '--controls-gap': CONTROLS_GAP,
-        '--grid-aspect': COL_COUNT / ROW_COUNT,
+        '--col-count': COL_COUNT,
+        '--row-count': ROW_COUNT,
       }}>
 
       <div className={style.game}>
@@ -174,25 +181,17 @@ function App() {
           {grid.map((row, rowIndex) => (
             <div
               key={rowIndex}
-              className={style.row}
-              style={{ height: `${100 / ROW_COUNT}%` }}>
+              className={style.row}>
               {row.map((colorIndex, colIndex) => {
-                const isFaceCell = rowIndex === ORIGIN.row && colIndex === ORIGIN.col;
+                const isFlooded = floodedKeys.has(`${rowIndex},${colIndex}`);
 
                 return (
                   <div
                     key={`${rowIndex}-${colIndex}`}
-                    className={isFaceCell ? `${style.cell} ${style.faceCell}` : style.cell}
-                    style={{
-                      backgroundColor: gamePalette[colorIndex],
-                      width: `${100 / COL_COUNT}%`,
-                    }}
+                    className={style.cell}
+                    style={{ backgroundColor: gamePalette[colorIndex] }}
                     onClick={() => onCellClick(colorIndex)}>
-                    {isFaceCell && (
-                      <div
-                        className={style.face}
-                        style={{ backgroundColor: getContrastColor(gamePalette[colorIndex]) }} />
-                    )}
+                    {isFlooded && <div className={style.scrim} />}
                   </div>
                 );
               })}

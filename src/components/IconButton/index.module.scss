@@ -1,17 +1,16 @@
-@use '@/styles/tokens' as *;
+@use '@/styles/colors';
 
 .filled {
-  @include button-reset;
 
   width: 34px;
   height: 34px;
-  color: $text;
-  background-color: $button;
+  color: colors.$text;
+  background-color: colors.$button;
   border-radius: 50%;
   transition: background-color 0.15s ease;
 
   &:hover {
-    background-color: $button-hover;
+    background-color: colors.$button-hover;
   }
 
   &:active {
@@ -20,16 +19,14 @@
 }
 
 .plain {
-  @include button-reset;
-
-  color: $text-dim;
+  color: colors.$text-dim;
   background: none;
   transition:
     color 0.15s ease,
     transform 0.15s ease;
 
   &:hover {
-    color: $text;
+    color: colors.$text;
     transform: scale(1.15);
   }
 

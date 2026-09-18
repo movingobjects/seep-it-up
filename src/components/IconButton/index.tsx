@@ -1,4 +1,14 @@
+import type { LucideIcon } from 'lucide-react';
 import style from './index.module.scss';
+
+interface IconButtonProps {
+  readonly icon: LucideIcon;
+  readonly label: string;
+  readonly onClick: () => void;
+  readonly iconSize?: number;
+  readonly variant?: 'filled' | 'plain';
+  readonly className?: string;
+}
 
 // A labelled icon-only button; `filled` sits on a round backing,
 // `plain` is just the icon
@@ -9,7 +19,7 @@ function IconButton({
   iconSize = 20,
   variant = 'filled',
   className = '',
-}) {
+}: IconButtonProps) {
   return (
     <button
       aria-label={label}

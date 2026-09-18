@@ -1,4 +1,4 @@
-@use '@/styles/tokens' as *;
+@use '@/styles/vars';
 
 .grid {
   display: flex;
@@ -31,7 +31,7 @@
   position: absolute;
   inset: 0;
   background-image: url('@/images/scrim.svg');
-  background-size: calc(var(--cell-size) / #{$scrim-tiles-per-cell});
+  background-size: calc(var(--cell-size) / #{vars.$scrim-tiles-per-cell});
   pointer-events: none;
   mix-blend-mode: multiply;
 }

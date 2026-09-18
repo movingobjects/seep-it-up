@@ -19,4 +19,4 @@ npm run lint
 ```
 
 Game settings (board size, number of colors, flood origin) live in
-`src/config.js`.
+`src/config.ts`.

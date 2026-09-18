@@ -4,16 +4,39 @@ import {
   COLOR_COUNT,
   ORIGIN,
   ROW_COUNT,
-} from '@/config.js';
+} from '@/config';
+import type {
+  ColorIndex,
+  Grid,
+  Mask,
+} from '@/types';
 import {
   createGrid,
   flood,
   getFloodedMask,
   isGridComplete,
-} from '@/utils/grid.js';
-import calcPar from '@/utils/par.js';
+} from '@/utils/grid';
+import calcPar from '@/utils/par';
 
-function createGame() {
+interface GameState {
+  grid: Grid;
+  flooded: Mask;
+  moveCount: number;
+  par: number;
+}
+
+interface FloodAction {
+  type: 'flood';
+  color: ColorIndex;
+}
+
+interface NewGameAction {
+  type: 'newGame';
+}
+
+type GameAction = FloodAction | NewGameAction;
+
+function createGame(): GameState {
   const grid = createGrid(ROW_COUNT, COL_COUNT, COLOR_COUNT);
 
   return {
@@ -24,13 +47,16 @@ function createGame() {
   };
 }
 
-function reducer(state, action) {
+function reducer(
+  state: GameState,
+  action: GameAction,
+): GameState {
   switch (action.type) {
     case 'flood': {
       const {
         grid, flooded,
       } = state;
-      const isSameColor = grid[ORIGIN.row][ORIGIN.col] === action.color;
+      const isSameColor = grid[ORIGIN[0]][ORIGIN[1]] === action.color;
 
       if (isSameColor || isGridComplete(grid)) return state;
 
@@ -47,8 +73,10 @@ function reducer(state, action) {
     case 'newGame':
       return createGame();
 
-    default:
-      throw new Error(`Unknown action: ${action.type}`);
+    default: {
+      const unhandled: never = action;
+      throw new Error(`Unknown action: ${JSON.stringify(unhandled)}`);
+    }
   }
 }
 
@@ -58,7 +86,7 @@ export default function useGame() {
   return {
     ...state,
     isComplete: isGridComplete(state.grid),
-    floodWith: (color) => dispatch({
+    floodWith: (color: ColorIndex) => dispatch({
       type: 'flood',
       color,
     }),

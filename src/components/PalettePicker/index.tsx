@@ -2,15 +2,22 @@ import {
   RefreshCw,
   Shuffle,
 } from 'lucide-react';
-import IconButton from '@/components/IconButton/index.jsx';
+import IconButton from '@/components/IconButton/index';
+import type { Palette } from '@/types';
 import { getContrastingColor } from '@/utils';
 import style from './index.module.scss';
+
+interface PalettePickerProps {
+  readonly palette: Palette;
+  readonly onSwatchClick: (index: number) => void;
+  readonly onShuffle: () => void;
+}
 
 function PalettePicker({
   palette,
   onSwatchClick,
   onShuffle,
-}) {
+}: PalettePickerProps) {
   return (
     <div className={style.swatches}>
       {palette.map((color, index) => (

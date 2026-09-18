@@ -1,8 +1,19 @@
 import { Dices } from 'lucide-react';
-import IconButton from '@/components/IconButton/index.jsx';
-import PalettePicker from '@/components/PalettePicker/index.jsx';
-import Stats from '@/components/Stats/index.jsx';
+import IconButton from '@/components/IconButton/index';
+import PalettePicker from '@/components/PalettePicker/index';
+import Stats from '@/components/Stats/index';
+import type { Palette } from '@/types';
 import style from './index.module.scss';
+
+interface ControlsProps {
+  readonly palette: Palette;
+  readonly moveCount: number;
+  readonly par: number;
+  readonly isComplete: boolean;
+  readonly onNewGame: () => void;
+  readonly onSwatchClick: (index: number) => void;
+  readonly onShuffle: () => void;
+}
 
 function Controls({
   palette,
@@ -12,7 +23,7 @@ function Controls({
   onNewGame,
   onSwatchClick,
   onShuffle,
-}) {
+}: ControlsProps) {
   return (
     <div className={style.controls}>
 

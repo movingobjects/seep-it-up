@@ -1,4 +1,18 @@
+import type {
+  ColorIndex,
+  Grid,
+  Mask,
+  Palette,
+} from '@/types';
 import style from './index.module.scss';
+
+interface BoardProps {
+  readonly grid: Grid;
+  readonly flooded: Mask;
+  readonly palette: Palette;
+  readonly isComplete: boolean;
+  readonly onCellClick: (color: ColorIndex) => void;
+}
 
 function Board({
   grid,
@@ -6,7 +20,7 @@ function Board({
   palette,
   isComplete,
   onCellClick,
-}) {
+}: BoardProps) {
   return (
     <div className={`${style.grid} ${isComplete ? style.complete : ''}`}>
       {grid.map((row, rowIndex) => (

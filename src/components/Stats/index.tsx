@@ -1,6 +1,17 @@
 import style from './index.module.scss';
 
-function getResultText(moveCount, par) {
+interface StatProps {
+  readonly label: string;
+  readonly value: number;
+}
+
+interface StatsProps {
+  readonly moveCount: number;
+  readonly par: number;
+  readonly isComplete: boolean;
+}
+
+function getResultText(moveCount: number, par: number) {
   const diff = moveCount - par;
 
   if (diff < 0) return `${-diff} under par`;
@@ -10,7 +21,7 @@ function getResultText(moveCount, par) {
 
 function Stat({
   label, value,
-}) {
+}: StatProps) {
   return (
     <div className={style.stat}>
       <p className={style.statLabel}>{label}</p>
@@ -23,7 +34,7 @@ function Stats({
   moveCount,
   par,
   isComplete,
-}) {
+}: StatsProps) {
   return (
     <div className={style.stats}>
       {isComplete && (

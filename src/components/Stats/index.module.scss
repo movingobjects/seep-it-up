@@ -1,4 +1,4 @@
-@use '@/styles/tokens' as *;
+@use '@/styles/colors';
 
 .stats {
   display: flex;
@@ -24,18 +24,18 @@
 .statLabel {
   @extend %label;
 
-  color: $text-dim;
+  color: colors.$text-dim;
 }
 
 .statValue {
   margin: 0;
   text-align: right;
   font-size: 22px;
-  color: $text;
+  color: colors.$text;
 }
 
 .result {
   @extend %label;
 
-  color: $text;
+  color: colors.$text;
 }

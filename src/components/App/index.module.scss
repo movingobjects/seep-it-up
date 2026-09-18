@@ -1,4 +1,4 @@
-@use '@/styles/tokens' as *;
+@use '@/styles/vars';
 
 .wrap {
   --padding: 40px;
@@ -25,7 +25,7 @@
       100cqw / var(--col-count),
       (100cqh - var(--controls-height) - var(--controls-gap)) / var(--row-count)
     ),
-    #{$scrim-tiles-per-cell * 1px}
+    #{vars.$scrim-tiles-per-cell * 1px}
   );
 
   display: flex;

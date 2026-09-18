@@ -1,11 +1,10 @@
+import type { Coord } from '@/types';
+
 export const COL_COUNT = 35;
 export const ROW_COUNT = 25;
 export const COLOR_COUNT = 4;
 
-export const ORIGIN = {
-  col: 0,
-  row: 0,
-};
+export const ORIGIN: Coord = [0, 0];
 
 export const COLORS = [
   '#1C4966',

@@ -5,16 +5,33 @@
 // rules and the better (lower) result wins, since neither rule dominates the
 // other across boards.
 
+import type {
+  ColorIndex,
+  Coord,
+  Grid,
+} from '@/types';
 import { getNeighbors } from '@/utils/grid';
 
+interface Region {
+  color: ColorIndex;
+  cellCount: number;
+  neighbors: Set<number>;
+}
+
+interface Gain {
+  cellsGained: number;
+  regionsGained: number;
+}
+
 // Collapse the grid into connected same-color regions and their adjacencies
-function getRegionGraph(grid, origin) {
+function getRegionGraph(grid: Grid, origin: Coord) {
   const rowCount = grid.length;
   const colCount = grid[0].length;
 
-  const regionIds = Array(rowCount).fill(null)
-    .map(() => Array(colCount).fill(-1));
-  const regions = [];
+  const regionIds: number[][] = Array.from({ length: rowCount }, () => (
+    Array<number>(colCount).fill(-1)
+  ));
+  const regions: Region[] = [];
 
   for (let row = 0; row < rowCount; row++) {
     for (let col = 0; col < colCount; col++) {
@@ -22,7 +39,7 @@ function getRegionGraph(grid, origin) {
 
       const color = grid[row][col];
       const id = regions.length;
-      const region = {
+      const region: Region = {
         color,
         cellCount: 0,
         neighbors: new Set(),
@@ -30,11 +47,11 @@ function getRegionGraph(grid, origin) {
       regions.push(region);
 
       // Flood the blob iteratively; recursion would risk a stack overflow
-      const queue = [[row, col]];
+      const queue: Coord[] = [[row, col]];
       regionIds[row][col] = id;
 
       while (queue.length) {
-        const [r, c] = queue.pop();
+        const [r, c] = queue.pop() as Coord;
         region.cellCount++;
 
         getNeighbors(grid, r, c).forEach(([nr, nc]) => {
@@ -63,19 +80,24 @@ function getRegionGraph(grid, origin) {
 
   return {
     regions,
-    startId: regionIds[origin.row][origin.col],
+    startId: regionIds[origin[0]][origin[1]],
   };
 }
 
 // Absorb every frontier region of a color, cascading through same-color
 // neighbors that merge into the blob along with them
-function capture(regions, color, captured, frontier) {
+function capture(
+  regions: Region[],
+  color: ColorIndex,
+  captured: Set<number>,
+  frontier: Set<number>,
+): Gain {
   const queue = [...frontier].filter((id) => regions[id].color === color);
   let cellsGained = 0;
   let regionsGained = 0;
 
   while (queue.length) {
-    const id = queue.pop();
+    const id = queue.pop() as number;
     if (captured.has(id)) continue;
 
     captured.add(id);
@@ -101,17 +123,19 @@ function capture(regions, color, captured, frontier) {
 }
 
 // Play the board out, picking the color that scores highest each turn
-function solve(regions, startId, getScore) {
+function solve(
+  regions: Region[],
+  startId: number,
+  getScore: (gain: Gain) => number,
+): number {
   const captured = new Set([startId]);
   const frontier = new Set(regions[startId].neighbors);
   let moves = 0;
 
   while (frontier.size) {
-    const candidateColors = new Set(
-      [...frontier].map((id) => regions[id].color),
-    );
+    const candidateColors = [...new Set([...frontier].map((id) => regions[id].color))];
 
-    let bestColor = null;
+    let bestColor = candidateColors[0];
     let bestScore = -1;
 
     candidateColors.forEach((color) => {
@@ -137,7 +161,10 @@ function solve(regions, startId, getScore) {
   return moves;
 }
 
-export default function calcPar(grid, origin) {
+export default function calcPar(
+  grid: Grid,
+  origin: Coord,
+): number {
   const {
     regions, startId,
   } = getRegionGraph(grid, origin);

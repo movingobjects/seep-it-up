@@ -1,6 +1,11 @@
-// A grid is an array of rows, each cell holding an index into the palette
+import type {
+  ColorIndex,
+  Coord,
+  Grid,
+  Mask,
+} from '@/types';
 
-export function createGrid(rowCount, colCount, colorCount) {
+export function createGrid(rowCount: number, colCount: number, colorCount: number): Grid {
   return Array.from({ length: rowCount }, () => (
     Array.from({ length: colCount }, () => (
       Math.floor(Math.random() * colorCount)
@@ -9,29 +14,31 @@ export function createGrid(rowCount, colCount, colorCount) {
 }
 
 // The in-bounds cells directly above, below, left and right of a cell
-export function getNeighbors(grid, row, col) {
+export function getNeighbors(grid: Grid, row: number, col: number): Coord[] {
   const rowCount = grid.length;
   const colCount = grid[0].length;
-
-  return [
+  const adjacent: Coord[] = [
     [row - 1, col],
     [row + 1, col],
     [row, col - 1],
     [row, col + 1],
-  ].filter(([r, c]) => r >= 0 && r < rowCount && c >= 0 && c < colCount);
+  ];
+
+  return adjacent.filter(([r, c]) => r >= 0 && r < rowCount && c >= 0 && c < colCount);
 }
 
 // Mark every cell joined to the origin through cells of its color
-export function getFloodedMask(grid, origin) {
-  const color = grid[origin.row][origin.col];
+export function getFloodedMask(grid: Grid, origin: Coord): Mask {
+  const [oRow, oCol] = origin;
+  const color = grid[oRow][oCol];
   const mask = grid.map((row) => row.map(() => false));
 
   // Iterative so large boards can't overflow the stack
-  const stack = [[origin.row, origin.col]];
-  mask[origin.row][origin.col] = true;
+  const stack: Coord[] = [origin];
+  mask[oRow][oCol] = true;
 
   while (stack.length) {
-    const [row, col] = stack.pop();
+    const [row, col] = stack.pop() as Coord;
 
     getNeighbors(grid, row, col).forEach(([r, c]) => {
       if (mask[r][c] || grid[r][c] !== color) return;
@@ -45,11 +52,11 @@ export function getFloodedMask(grid, origin) {
 }
 
 // Repaint the flooded cells, returning a new grid
-export function flood(grid, mask, color) {
+export function flood(grid: Grid, mask: Mask, color: ColorIndex): Grid {
   return grid.map((row, r) => row.map((cell, c) => (mask[r][c] ? color : cell)));
 }
 
-export function isGridComplete(grid) {
+export function isGridComplete(grid: Grid): boolean {
   const color = grid[0][0];
   return grid.every((row) => row.every((cell) => cell === color));
 }

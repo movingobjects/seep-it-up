@@ -1,4 +1,4 @@
-@use '@/styles/tokens' as *;
+@use '@/styles/colors';
 
 .swatches {
   display: flex;
@@ -8,8 +8,6 @@
 }
 
 .swatch {
-  @include button-reset;
-
   width: 22px;
   height: 22px;
   border-radius: 50%;

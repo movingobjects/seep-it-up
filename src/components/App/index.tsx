@@ -1,11 +1,11 @@
-import Board from '@/components/Board/index.jsx';
-import Controls from '@/components/Controls/index.jsx';
+import Board from '@/components/Board/index';
+import Controls from '@/components/Controls/index';
 import {
   COL_COUNT,
   ROW_COUNT,
-} from '@/config.js';
-import useGame from '@/hooks/useGame.js';
-import usePalette from '@/hooks/usePalette.js';
+} from '@/config';
+import useGame from '@/hooks/useGame';
+import usePalette from '@/hooks/usePalette';
 import style from './index.module.scss';
 
 function App() {

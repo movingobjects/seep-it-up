@@ -4,7 +4,10 @@ import {
   COLOR_COUNT,
   COLORS,
 } from '@/config';
-import type { Palette } from '@/types';
+import type {
+  Palette,
+  PaletteColor,
+} from '@/types';
 
 export default function usePalette() {
   const [palette, setPalette] = useState<Palette>(
@@ -12,7 +15,7 @@ export default function usePalette() {
   );
 
   const getNextSwatchColor = (
-    currentColor: string,
+    currentColor: PaletteColor,
     currentPalette: Palette,
   ) => {
     const startIndex = COLORS.indexOf(currentColor);

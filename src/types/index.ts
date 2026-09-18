@@ -12,5 +12,9 @@ export type Coord = [
   col: number,
 ];
 
-// Hex colors, one per color index
-export type Palette = string[];
+export interface PaletteColor {
+  color: string;
+  shade: string;
+}
+
+export type Palette = PaletteColor[];

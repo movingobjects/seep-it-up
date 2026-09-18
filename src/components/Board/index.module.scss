@@ -17,9 +17,9 @@
 }
 
 .cell {
-  position: relative;
   width: var(--cell-size);
   height: 100%;
+  background-size: 100%;
   cursor: pointer;
 
   .complete & {
@@ -43,13 +43,4 @@
     width: 100%;
     height: var(--cell-size);
   }
-}
-
-.scrim {
-  position: absolute;
-  inset: 0;
-  background-image: url('@/images/scrim.svg');
-  background-size: calc(var(--cell-size) / #{vars.$scrim-tiles-per-cell});
-  pointer-events: none;
-  mix-blend-mode: multiply;
 }

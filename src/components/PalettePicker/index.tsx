@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 import IconButton from '@/components/IconButton/index';
 import type { Palette } from '@/types';
-import { getContrastingColor } from '@/utils';
+import { getContrastingColor } from '@/utils/color';
 import style from './index.module.scss';
 
 interface PalettePickerProps {
@@ -20,7 +20,7 @@ function PalettePicker({
 }: PalettePickerProps) {
   return (
     <div className={style.swatches}>
-      {palette.map((color, index) => (
+      {palette.map(({ color }, index) => (
         <button
           // Keyed by slot, not color, so a swatch keeps its hover state
           // while it cycles

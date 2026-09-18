@@ -4,6 +4,7 @@ import type {
   Mask,
   Palette,
 } from '@/types';
+import { getCellPattern } from '@/utils/pattern';
 import style from './index.module.scss';
 
 interface BoardProps {
@@ -21,6 +22,10 @@ function Board({
   isComplete,
   onCellClick,
 }: BoardProps) {
+  const patterns = palette.map(({ shade }) => (
+    getCellPattern(shade)
+  ));
+
   return (
     <div className={`${style.grid} ${isComplete ? style.complete : ''}`}>
       {grid.map((row, rowIndex) => (
@@ -33,10 +38,11 @@ function Board({
               // eslint-disable-next-line react/no-array-index-key
               key={colIndex}
               className={style.cell}
-              style={{ backgroundColor: palette[colorIndex] }}
-              onClick={() => onCellClick(colorIndex)}>
-              {flooded[rowIndex][colIndex] && <div className={style.scrim} />}
-            </div>
+              style={{
+                backgroundColor: palette[colorIndex].color,
+                backgroundImage: flooded[rowIndex][colIndex] ? patterns[colorIndex] : undefined,
+              }}
+              onClick={() => onCellClick(colorIndex)} />
           ))}
         </div>
       ))}

@@ -29,7 +29,7 @@
       100cqw / var(--board-cols),
       (100cqh - var(--controls-height) - var(--controls-gap)) / var(--board-rows)
     ),
-    #{vars.$scrim-tiles-per-cell * 1px}
+    #{vars.$cell-size-pixel-snap * 1px}
   );
 
   display: flex;

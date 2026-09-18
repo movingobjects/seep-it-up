@@ -18,8 +18,8 @@ const COLOR_COUNT = 4;
 
 // The cell the flood spreads out from; any cell on the board works
 const ORIGIN = {
-  row: 0,
   col: 0,
+  row: 0,
 };
 const PADDING = '40px';
 const CONTROLS_HEIGHT = '56px';
@@ -177,18 +177,22 @@ function App() {
               className={style.row}
               style={{ height: `${100 / ROW_COUNT}%` }}>
               {row.map((colorIndex, colIndex) => {
-                const isOrigin = rowIndex === ORIGIN.row && colIndex === ORIGIN.col;
+                const isFaceCell = rowIndex === ORIGIN.row && colIndex === ORIGIN.col;
 
                 return (
                   <div
                     key={`${rowIndex}-${colIndex}`}
-                    className={isOrigin ? `${style.cell} ${style.originCell}` : style.cell}
+                    className={isFaceCell ? `${style.cell} ${style.faceCell}` : style.cell}
                     style={{
                       backgroundColor: gamePalette[colorIndex],
                       width: `${100 / COL_COUNT}%`,
                     }}
                     onClick={() => onCellClick(colorIndex)}>
-                    {isOrigin && <div className={style.originDot} />}
+                    {isFaceCell && (
+                      <div
+                        className={style.face}
+                        style={{ backgroundColor: getContrastColor(gamePalette[colorIndex]) }} />
+                    )}
                   </div>
                 );
               })}

@@ -49,18 +49,20 @@ $text-dim: #8A8A8A;
   cursor: pointer;
 }
 
-// Marks the cell the flood spreads out from
-.originCell {
+// Holds the face, which marks the cell the flood spreads out from
+.faceCell {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.originDot {
-  width: 40%;
+.face {
+  width: 80%;
   aspect-ratio: 1;
-  border-radius: 50%;
-  background-color: black;
+  mask-image: url('@/images/face.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
   pointer-events: none;
 }
 

@@ -1,6 +1,9 @@
 @use '@/styles/colors';
+@use '@/styles/vars';
 
 .footer {
+  position: relative;
+  z-index: vars.$zFooter;
   height: var(--footer-height);
   display: flex;
   align-items: center;
@@ -15,6 +18,10 @@
 
     &.moveCount {
       font-weight: 900;
+
+      &.lost {
+        color: colors.$lost;
+      }
     }
 
     &.par {

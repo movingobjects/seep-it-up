@@ -1,6 +1,7 @@
 @use '@/styles/vars';
 
-.grid {
+.wrap {
+  z-index: vars.$zBoard;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -22,7 +23,7 @@
   background-size: 100%;
   cursor: pointer;
 
-  .complete & {
+  .inactive & {
     cursor: default;
   }
 }

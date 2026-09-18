@@ -47,6 +47,13 @@ function createGame(): GameState {
   };
 }
 
+// Out of moves with cells still left to flood
+function isGameLost({
+  grid, moveCount, par,
+}: GameState): boolean {
+  return moveCount >= par && !isGridComplete(grid);
+}
+
 function reducer(
   state: GameState,
   action: GameAction,
@@ -58,7 +65,7 @@ function reducer(
       } = state;
       const isSameColor = grid[ORIGIN[0]][ORIGIN[1]] === action.color;
 
-      if (isSameColor || isGridComplete(grid)) return state;
+      if (isSameColor || isGridComplete(grid) || isGameLost(state)) return state;
 
       const nextGrid = flood(grid, flooded, action.color);
 
@@ -86,6 +93,7 @@ export default function useGame() {
   return {
     ...state,
     isComplete: isGridComplete(state.grid),
+    isLost: isGameLost(state),
     floodWith: (color: ColorIndex) => dispatch({
       type: 'flood',
       color,

@@ -55,3 +55,10 @@ export const COLORS: PaletteColor[] = [
     shade: '#f19f60',
   },
 ];
+
+// Cell colors once the game is lost
+export const LOST_FLOODED_COLOR: PaletteColor = {
+  color: '#111',
+  shade: '#333',
+};
+export const LOST_UNFLOODED_COLOR = '#333';

@@ -20,17 +20,6 @@
     sans-serif;
 }
 
-.title {
-  position: relative;
-  height: var(--title-height);
-  line-height: var(--title-height);
-  color: colors.$heading;
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  font-weight: 900;
-}
-
 .game {
   // Cells across and down the board as displayed. In portrait the board is
   // transposed, so rows run across and columns run down
@@ -54,4 +43,9 @@
     --board-cols: var(--row-count);
     --board-rows: var(--col-count);
   }
+}
+
+.board {
+  position: relative;
+  z-index: vars.$zBoard;
 }

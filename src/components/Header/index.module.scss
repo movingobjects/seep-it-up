@@ -1,0 +1,17 @@
+@use '@/styles/colors';
+@use '@/styles/vars';
+
+.wrap {
+  position: relative;
+  z-index: vars.$zHeader;
+
+  h1 {
+    height: var(--title-height);
+    line-height: var(--title-height);
+    color: colors.$heading;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    font-weight: 900;
+  }
+}

@@ -1,1 +1,4 @@
 $scrim-tiles-per-cell: 4;
+
+// Viewports narrower than this lay the board out tall
+$portrait: '(max-aspect-ratio: 4 / 5)';

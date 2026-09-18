@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(var(--cell-size) * var(--row-count));
+  height: calc(var(--cell-size) * var(--board-rows));
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 1px 1px 25px 10px #000;
@@ -24,6 +24,24 @@
 
   .complete & {
     cursor: default;
+  }
+}
+
+// Transpose the board so it stands tall, keeping the origin top left
+@media #{vars.$portrait} {
+  .grid {
+    flex-direction: row;
+  }
+
+  .row {
+    flex-direction: column;
+    width: var(--cell-size);
+    height: 100%;
+  }
+
+  .cell {
+    width: 100%;
+    height: var(--cell-size);
   }
 }
 

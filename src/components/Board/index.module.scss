@@ -1,0 +1,37 @@
+@use '@/styles/tokens' as *;
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(var(--cell-size) * var(--row-count));
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 1px 1px 25px 10px #000;
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  height: var(--cell-size);
+}
+
+.cell {
+  position: relative;
+  width: var(--cell-size);
+  height: 100%;
+  cursor: pointer;
+
+  .complete & {
+    cursor: default;
+  }
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background-image: url('@/images/scrim.svg');
+  background-size: calc(var(--cell-size) / #{$scrim-tiles-per-cell});
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}

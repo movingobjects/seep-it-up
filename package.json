@@ -22,17 +22,16 @@
   },
   "homepage": "https://github.com/movingobjects/seepover#readme",
   "dependencies": {
-    "@vitejs/plugin-react": "^5.1.2",
-    "jotai": "^2.16.1",
+    "@movingobjects/utils": "^0.2.1",
     "lucide-react": "^1.47.0",
-    "pixi.js": "^8.14.3",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "sass": "^1.97.1",
-    "vite": "^7.3.0"
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@movingobjects/eslint-config": "^0.2.1",
-    "eslint": "^9.39.2"
+    "@vitejs/plugin-react": "^5.2.0",
+    "eslint": "^9.39.2",
+    "sass": "^1.104.1",
+    "vite": "^7.3.6"
   }
 }

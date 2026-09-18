@@ -5,6 +5,8 @@
 // rules and the better (lower) result wins, since neither rule dominates the
 // other across boards.
 
+import { getNeighbors } from '@/utils/grid';
+
 // Collapse the grid into connected same-color regions and their adjacencies
 function getRegionGraph(grid, origin) {
   const rowCount = grid.length;
@@ -35,14 +37,7 @@ function getRegionGraph(grid, origin) {
         const [r, c] = queue.pop();
         region.cellCount++;
 
-        const adjacent = [
-          [r - 1, c],
-          [r + 1, c],
-          [r, c - 1],
-          [r, c + 1],
-        ];
-        adjacent.forEach(([nr, nc]) => {
-          if (nr < 0 || nr >= rowCount || nc < 0 || nc >= colCount) return;
+        getNeighbors(grid, r, c).forEach(([nr, nc]) => {
           if (grid[nr][nc] !== color) return;
           if (regionIds[nr][nc] !== -1) return;
 
@@ -53,19 +48,15 @@ function getRegionGraph(grid, origin) {
     }
   }
 
-  // Link regions that touch
+  // Link regions that touch; every cell is visited, so each link is
+  // recorded from both sides
   for (let row = 0; row < rowCount; row++) {
     for (let col = 0; col < colCount; col++) {
       const id = regionIds[row][col];
 
-      [[row + 1, col], [row, col + 1]].forEach(([nr, nc]) => {
-        if (nr >= rowCount || nc >= colCount) return;
-
+      getNeighbors(grid, row, col).forEach(([nr, nc]) => {
         const neighborId = regionIds[nr][nc];
-        if (neighborId === id) return;
-
-        regions[id].neighbors.add(neighborId);
-        regions[neighborId].neighbors.add(id);
+        if (neighborId !== id) regions[id].neighbors.add(neighborId);
       });
     }
   }

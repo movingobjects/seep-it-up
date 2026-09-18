@@ -12,19 +12,3 @@ html,
 body {
   background-color: colors.$background;
 }
-
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-  padding: 0;
-  line-height: 0;
-  border: 0;
-  cursor: pointer;
-
-  svg {
-    display: block;
-    flex: none;
-  }
-}

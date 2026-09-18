@@ -1,5 +1,5 @@
 import Board from '@/components/Board/index';
-import Controls from '@/components/Controls/index';
+import Footer from '@/components/Footer/index';
 import {
   COL_COUNT,
   ROW_COUNT,
@@ -16,14 +16,9 @@ function App() {
     par,
     isComplete,
     floodWith,
-    newGame,
   } = useGame();
 
-  const {
-    palette,
-    shufflePalette,
-    cycleSwatch,
-  } = usePalette();
+  const { palette } = usePalette();
 
   return (
     <div
@@ -34,20 +29,16 @@ function App() {
       }}>
 
       <div className={style.game}>
+        <h1 className={style.title}>Seep It Up!</h1>
         <Board
           flooded={flooded}
           grid={grid}
           isComplete={isComplete}
           palette={palette}
           onCellClick={floodWith} />
-        <Controls
-          isComplete={isComplete}
+        <Footer
           moveCount={moveCount}
-          palette={palette}
-          par={par}
-          onNewGame={newGame}
-          onShuffle={shufflePalette}
-          onSwatchClick={cycleSwatch} />
+          par={par} />
       </div>
 
     </div>

@@ -11,31 +11,31 @@ export const ORIGIN: Coord = [0, 0];
 
 export const COLORS: PaletteColor[] = [
   {
-    color: '#1C4966',
+    color: '#1c4966',
     shade: '#0d224c',
   },
   {
-    color: '#7BCFDE',
+    color: '#7bcfde',
     shade: '#06978e',
   },
   {
-    color: '#005FB2',
+    color: '#005fb2',
     shade: '#014d68',
   },
   {
-    color: '#629CDB',
-    shade: '#8ac2e8',
+    color: '#629cdb',
+    shade: '#3f67eb',
   },
   {
-    color: '#3D996D',
+    color: '#3d996d',
     shade: '#0a6e79',
   },
   {
-    color: '#C1DD6D',
+    color: '#b7d65b',
     shade: '#41b324',
   },
   {
-    color: '#FF683E',
+    color: '#ff683e',
     shade: '#b52700',
   },
   {
@@ -47,11 +47,11 @@ export const COLORS: PaletteColor[] = [
     shade: '#ae0fe8',
   },
   {
-    color: '#FFCA51',
+    color: '#ffca51',
     shade: '#ce900c',
   },
   {
-    color: '#FFFBBC',
+    color: '#fffbbc',
     shade: '#f19f60',
   },
 ];

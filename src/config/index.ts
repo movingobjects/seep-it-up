@@ -3,8 +3,8 @@ import type {
   PaletteColor,
 } from '@/types';
 
-export const COL_COUNT = 35;
-export const ROW_COUNT = 25;
+export const COL_COUNT = 30;
+export const ROW_COUNT = 20;
 export const COLOR_COUNT = 4;
 
 export const ORIGIN: Coord = [0, 0];
@@ -62,3 +62,6 @@ export const LOST_FLOODED_COLOR: PaletteColor = {
   shade: '#333',
 };
 export const LOST_UNFLOODED_COLOR = '#333';
+
+// The logo skips palette colors darker than this HSV value (0-1)
+export const LOGO_MIN_VALUE = 0.5;

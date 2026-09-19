@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import style from './index.module.scss';
 
-interface FooterProps {
+interface Props {
   readonly moveCount: number;
   readonly par: number;
   readonly isLost: boolean;
@@ -11,7 +11,7 @@ function Footer({
   moveCount,
   par,
   isLost,
-}: FooterProps) {
+}: Props) {
   return (
     <div className={style.footer}>
       <span className={clsx({

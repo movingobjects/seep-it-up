@@ -20,6 +20,8 @@ import calcPar from '@/utils/par';
 
 interface GameState {
   grid: Grid;
+  // The origin's color when the game began
+  startColor: ColorIndex;
   flooded: Mask;
   moveCount: number;
   par: number;
@@ -41,6 +43,7 @@ function createGame(): GameState {
 
   return {
     grid,
+    startColor: grid[ORIGIN[0]][ORIGIN[1]],
     flooded: getFloodedMask(grid, ORIGIN),
     moveCount: 0,
     par: calcPar(grid, ORIGIN),

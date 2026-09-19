@@ -12,7 +12,7 @@ import type {
 import { getCellPattern } from '@/utils/pattern';
 import style from './index.module.scss';
 
-interface BoardProps {
+interface Props {
   readonly grid: Grid;
   readonly flooded: Mask;
   readonly palette: Palette;
@@ -28,7 +28,7 @@ function Board({
   isComplete,
   isLost,
   onCellClick,
-}: BoardProps) {
+}: Props) {
   const patterns = palette.map(({ shade }) => (
     getCellPattern(shade)
   ));

@@ -1,5 +1,9 @@
 import clsx from 'clsx';
-import type { CSSProperties } from 'react';
+import {
+  type CSSProperties,
+  useEffect,
+  useRef,
+} from 'react';
 import {
   LOST_FLOODED_COLOR,
   LOST_UNFLOODED_COLOR,
@@ -14,7 +18,9 @@ import type {
 import { getCellPattern } from '@/utils/pattern';
 import {
   getHeatColors,
+  getRadiateTiming,
   getRevealDelay,
+  RADIATE_KEYFRAMES,
 } from '@/utils/winSequence';
 import style from './index.module.scss';
 
@@ -39,6 +45,7 @@ function Board({
   isLost,
   onCellClick,
 }: BoardProps) {
+  const wrapRef = useRef<HTMLDivElement>(null);
   const patterns = palette.map(({ shade }) => (
     getCellPattern(shade)
   ));
@@ -52,6 +59,23 @@ function Board({
     '--heat-pattern': heatPatterns[step],
     '--reveal-delay': `${getRevealDelay(step, moveCount)}ms`,
   });
+
+  // Keep the heat colors radiating once the reveal finishes
+  useEffect(() => {
+    if (!isComplete || !wrapRef.current) return undefined;
+
+    const cells = wrapRef.current.querySelectorAll(`.${style.cell}`);
+    const steps = floodOrder.flat();
+    const animations = Array.from(cells, (cell, i) => (
+      cell.animate(RADIATE_KEYFRAMES, getRadiateTiming(steps[i], moveCount))
+    ));
+
+    return () => animations.forEach((animation) => animation.cancel());
+  }, [
+    isComplete,
+    floodOrder,
+    moveCount,
+  ]);
 
   const getCellStyle = (
     colorIndex: ColorIndex,
@@ -75,11 +99,13 @@ function Board({
   };
 
   return (
-    <div className={clsx({
-      [style.wrap]: true,
-      [style.inactive]: (isComplete || isLost),
-      [style.won]: isComplete,
-    })}>
+    <div
+      ref={wrapRef}
+      className={clsx({
+        [style.wrap]: true,
+        [style.inactive]: (isComplete || isLost),
+        [style.won]: isComplete,
+      })}>
       {grid.map((row, rowIndex) => (
         <div
           // eslint-disable-next-line react/no-array-index-key

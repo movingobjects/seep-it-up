@@ -81,3 +81,5 @@ export const HEAT_COLORS = [
 // Win sequence timing, in milliseconds
 export const WIN_START_DELAY = 300;
 export const WIN_STEP_DURATION = 65;
+export const RADIATE_DURATION = 5000;
+export const RADIATE_KEYFRAMES = 20;

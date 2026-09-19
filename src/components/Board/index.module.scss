@@ -30,7 +30,7 @@
 
 // Transpose the board so it stands tall, keeping the origin top left
 @media #{vars.$portrait} {
-  .grid {
+  .wrap {
     flex-direction: row;
   }
 

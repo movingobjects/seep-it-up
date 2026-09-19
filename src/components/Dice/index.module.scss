@@ -1,0 +1,17 @@
+@use '@/styles/colors';
+
+.dice {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: colors.$heading;
+}
+
+.die {
+  width: 26px;
+  height: 26px;
+
+  &.rolling {
+    opacity: 0.5;
+  }
+}

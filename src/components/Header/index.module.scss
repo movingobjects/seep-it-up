@@ -18,33 +18,20 @@
   }
 }
 
-.streak {
-  text-transform: uppercase;
-  white-space: nowrap;
-  animation: streak-enter 0.3s ease-out;
-  font-weight: 400;
-  color: colors.$textDim;
-  letter-spacing: 0.025em;
-  font-size: 20px;
+.levels {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-// Pops each time the streak grows
-.streakCount {
-  display: inline-block;
-  animation: streak-pop 0.3s ease-out;
-  color: colors.$heading;
-  font-weight: 900;
-}
+.level {
+  width: 14px;
+  height: 14px;
+  border: 2px solid colors.$textDim;
+  border-radius: 50%;
 
-@keyframes streak-enter {
-  from {
-    opacity: 0;
-    transform: translateX(15px);
-  }
-}
-
-@keyframes streak-pop {
-  from {
-    transform: scale(1.5);
+  &.reached {
+    border-color: colors.$heading;
+    background-color: colors.$heading;
   }
 }

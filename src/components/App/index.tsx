@@ -1,20 +1,25 @@
 import Board from '@/components/Board/index';
 import Footer from '@/components/Footer/index';
 import Header from '@/components/Header/index';
-import {
-  COL_COUNT,
-  ROW_COUNT,
-} from '@/config';
 import useGame from '@/hooks/useGame';
 import useGameTransition from '@/hooks/useGameTransition';
+import { pickMidtoneColor } from '@/utils/color';
+import {
+  MAX_COL_COUNT,
+  MAX_ROW_COUNT,
+} from '@/utils/levels';
 import style from './index.module.scss';
 
 function App() {
   const game = useGame();
   const {
+    levelIndex,
+    level,
     grid,
     flooded,
+    buildOrder,
     palette,
+    startColor,
     moveCount,
     par,
     streak,
@@ -24,22 +29,26 @@ function App() {
   } = game;
 
   const {
-    isBuilding,
     outgoing,
-    buildOrder,
-    builtCount,
+    buildProgress,
+    diceRolls,
   } = useGameTransition(game);
 
   return (
     <div
       className={style.wrap}
       style={{
-        '--col-count': COL_COUNT,
-        '--row-count': ROW_COUNT,
+        '--col-count': MAX_COL_COUNT,
+        '--row-count': MAX_ROW_COUNT,
       }}>
 
       <div className={style.game}>
-        <Header streak={streak} />
+        <Header
+          buildProgress={buildProgress}
+          diceRolls={diceRolls}
+          dieColor={pickMidtoneColor(palette[startColor], palette)}
+          level={level}
+          levelIndex={levelIndex} />
         <div className={style.board}>
           {outgoing && (
             <div className={style.outgoing}>
@@ -52,10 +61,10 @@ function App() {
           )}
           <Board
             buildOrder={buildOrder}
-            builtCount={builtCount}
+            buildProgress={buildProgress}
             flooded={flooded}
             grid={grid}
-            isActive={!isBuilding && !isComplete && !isLost}
+            isActive={!outgoing && !isComplete && !isLost}
             isBlinking={isLost}
             isLost={isLost}
             palette={palette}
@@ -64,7 +73,8 @@ function App() {
         <Footer
           isLost={isLost}
           moveCount={moveCount}
-          par={par} />
+          par={par}
+          streak={streak} />
       </div>
 
     </div>

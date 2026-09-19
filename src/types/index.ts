@@ -26,3 +26,25 @@ export interface BoardState {
   palette: Palette;
   isLost: boolean;
 }
+
+export interface GridSize {
+  colCount: number;
+  rowCount: number;
+}
+
+export interface Level extends GridSize {
+  label: string;
+  colorCount: number;
+}
+
+// A die's tumble, as the faces it shows and when each gives way to the next
+export type DiceRoll = {
+  face: number;
+  color: string;
+  endsAt: number;
+}[];
+
+export interface ColorCountOdds {
+  colorCount: number;
+  weight: number;
+}

@@ -22,10 +22,10 @@ interface Props {
   readonly isLost: boolean;
   readonly isActive?: boolean;
   readonly isBlinking?: boolean;
-  // While building in, each cell's place in the build order and how many
-  // cells have been built so far
-  readonly buildOrder?: number[][] | null;
-  readonly builtCount?: number;
+  // Each cell's place in the build order, and how far through building in
+  // the board is, from 0 to 1, while it builds
+  readonly buildOrder?: number[][];
+  readonly buildProgress?: number | null;
   readonly onCellClick?: (color: ColorIndex) => void;
 }
 
@@ -36,8 +36,8 @@ function Board({
   isLost,
   isActive = false,
   isBlinking = false,
-  buildOrder = null,
-  builtCount = 0,
+  buildOrder,
+  buildProgress = null,
   onCellClick,
 }: Props) {
   const patterns = palette.map(({ shade }) => (
@@ -45,6 +45,7 @@ function Board({
   ));
   const lostPattern = getCellPattern(LOST_FLOODED_COLOR.shade);
   const floodColor = palette[getOriginColor(grid)].color;
+  const builtCount = (buildProgress ?? 1) * grid.length * grid[0].length;
 
   const getCellStyle = (colorIndex: ColorIndex, isFlooded: boolean): CSSProperties => {
     if (isLost) {

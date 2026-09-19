@@ -62,3 +62,9 @@ export const LOST_FLOODED_COLOR: PaletteColor = {
   shade: '#333',
 };
 export const LOST_UNFLOODED_COLOR = '#333';
+
+// Timing of the sequence between games, in milliseconds
+export const WIN_PAUSE_DURATION = 500;
+export const LOSE_BLINK_DURATION = 2000;
+export const LOSE_BLINK_INTERVAL = 300;
+export const BUILD_DURATION = 2000;

@@ -24,7 +24,6 @@
   "homepage": "https://github.com/movingobjects/seep-it-up#readme",
   "dependencies": {
     "@movingobjects/utils": "^0.2.1",
-    "@sanity/icons": "^5.2.2",
     "clsx": "^2.1.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"

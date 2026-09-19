@@ -12,10 +12,10 @@
 
   span {
     font-size: 20px;
+    font-weight: 400;
     color: colors.$heading;
 
     &.moveCount {
-      font-size: 24px;
       font-weight: 900;
 
       &.lost {

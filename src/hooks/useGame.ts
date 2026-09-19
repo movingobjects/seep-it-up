@@ -23,6 +23,7 @@ interface GameState {
   flooded: Mask;
   moveCount: number;
   par: number;
+  streak: number;
 }
 
 interface FloodAction {
@@ -32,18 +33,22 @@ interface FloodAction {
 
 interface NewGameAction {
   type: 'newGame';
+  originColor?: ColorIndex;
 }
 
 type GameAction = FloodAction | NewGameAction;
 
-function createGame(): GameState {
+function createGame(streak = 0, originColor?: ColorIndex): GameState {
   const grid = createGrid(ROW_COUNT, COL_COUNT, COLOR_COUNT);
+
+  if (originColor !== undefined) grid[ORIGIN[0]][ORIGIN[1]] = originColor;
 
   return {
     grid,
     flooded: getFloodedMask(grid, ORIGIN),
     moveCount: 0,
     par: calcPar(grid, ORIGIN),
+    streak,
   };
 }
 
@@ -68,17 +73,27 @@ function reducer(
       if (isSameColor || isGridComplete(grid) || isGameLost(state)) return state;
 
       const nextGrid = flood(grid, flooded, action.color);
-
-      return {
+      const nextState = {
         ...state,
         grid: nextGrid,
         flooded: getFloodedMask(nextGrid, ORIGIN),
         moveCount: state.moveCount + 1,
       };
+
+      if (isGridComplete(nextGrid)) return {
+        ...nextState,
+        streak: state.streak + 1,
+      };
+      if (isGameLost(nextState)) return {
+        ...nextState,
+        streak: 0,
+      };
+
+      return nextState;
     }
 
     case 'newGame':
-      return createGame();
+      return createGame(state.streak, action.originColor);
 
     default: {
       const unhandled: never = action;
@@ -88,7 +103,7 @@ function reducer(
 }
 
 export default function useGame() {
-  const [state, dispatch] = useReducer(reducer, null, createGame);
+  const [state, dispatch] = useReducer(reducer, 0, createGame);
 
   return {
     ...state,
@@ -98,6 +113,9 @@ export default function useGame() {
       type: 'flood',
       color,
     }),
-    newGame: () => dispatch({ type: 'newGame' }),
+    newGame: (originColor?: ColorIndex) => dispatch({
+      type: 'newGame',
+      originColor,
+    }),
   };
 }

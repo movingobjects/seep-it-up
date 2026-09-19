@@ -1,3 +1,4 @@
+import { shuffle } from '@movingobjects/utils/random';
 import type {
   ColorIndex,
   Coord,
@@ -59,4 +60,13 @@ export function flood(grid: Grid, mask: Mask, color: ColorIndex): Grid {
 export function isGridComplete(grid: Grid): boolean {
   const color = grid[0][0];
   return grid.every((row) => row.every((cell) => cell === color));
+}
+
+// Give each cell a random place in the order the board builds in
+export function createBuildOrder(rowCount: number, colCount: number): number[][] {
+  const order = shuffle(Array.from({ length: rowCount * colCount }, (_, i) => i));
+
+  return Array.from({ length: rowCount }, (_, row) => (
+    order.slice(row * colCount, (row + 1) * colCount)
+  ));
 }

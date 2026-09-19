@@ -49,3 +49,11 @@
   position: relative;
   z-index: vars.$zBoard;
 }
+
+// Tuck the finished board behind the one building in; being positioned, it
+// would otherwise paint over it
+.outgoing {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}

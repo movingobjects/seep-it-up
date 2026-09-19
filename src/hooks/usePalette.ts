@@ -34,6 +34,22 @@ export default function usePalette() {
     );
   };
 
+  // Lead with the given color and fill the rest with colors not in the
+  // current palette, falling back to reused ones if they run short
+  const promoteColor = (color: PaletteColor) => {
+    setPalette((current) => {
+      const others = COLORS.filter((c) => c !== color);
+      const fresh = shuffle(others.filter((c) => !current.includes(c)));
+      const reused = shuffle(others.filter((c) => current.includes(c)));
+
+      return [
+        color,
+        ...fresh,
+        ...reused,
+      ].slice(0, COLOR_COUNT);
+    });
+  };
+
   const cycleSwatch = (index: number) => (
     setPalette((current) => current.map((color, i) => (
       (i === index)
@@ -45,6 +61,7 @@ export default function usePalette() {
   return {
     palette,
     shufflePalette,
+    promoteColor,
     cycleSwatch,
   };
 }

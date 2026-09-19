@@ -26,6 +26,23 @@
   .inactive & {
     cursor: default;
   }
+
+  // Alternate between the cell's own color and the last flooded color
+  &.blink {
+    animation: blink calc(var(--blink-interval) * 2) step-end infinite;
+  }
+
+  // Not built in yet, leaving the board beneath showing through
+  &.unbuilt {
+    visibility: hidden;
+  }
+}
+
+@keyframes blink {
+  50%,
+  100% {
+    background-color: var(--blink-color);
+  }
 }
 
 // Transpose the board so it stands tall, keeping the origin top left

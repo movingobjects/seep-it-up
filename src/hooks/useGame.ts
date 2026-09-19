@@ -9,18 +9,25 @@ import type {
   ColorIndex,
   Grid,
   Mask,
+  Palette,
 } from '@/types';
 import {
   createGrid,
   flood,
   getFloodedMask,
+  getOriginColor,
   isGridComplete,
 } from '@/utils/grid';
+import {
+  createPalette,
+  promoteColor,
+} from '@/utils/palette';
 import calcPar from '@/utils/par';
 
 interface GameState {
   grid: Grid;
   flooded: Mask;
+  palette: Palette;
   moveCount: number;
   par: number;
   streak: number;
@@ -31,14 +38,17 @@ interface FloodAction {
   color: ColorIndex;
 }
 
-interface NewGameAction {
-  type: 'newGame';
-  originColor?: ColorIndex;
+interface NextGameAction {
+  type: 'nextGame';
 }
 
-type GameAction = FloodAction | NewGameAction;
+type GameAction = FloodAction | NextGameAction;
 
-function createGame(streak = 0, originColor?: ColorIndex): GameState {
+function createGame(
+  palette: Palette,
+  streak = 0,
+  originColor?: ColorIndex,
+): GameState {
   const grid = createGrid(ROW_COUNT, COL_COUNT, COLOR_COUNT);
 
   if (originColor !== undefined) grid[ORIGIN[0]][ORIGIN[1]] = originColor;
@@ -46,6 +56,7 @@ function createGame(streak = 0, originColor?: ColorIndex): GameState {
   return {
     grid,
     flooded: getFloodedMask(grid, ORIGIN),
+    palette,
     moveCount: 0,
     par: calcPar(grid, ORIGIN),
     streak,
@@ -68,7 +79,7 @@ function reducer(
       const {
         grid, flooded,
       } = state;
-      const isSameColor = grid[ORIGIN[0]][ORIGIN[1]] === action.color;
+      const isSameColor = getOriginColor(grid) === action.color;
 
       if (isSameColor || isGridComplete(grid) || isGameLost(state)) return state;
 
@@ -92,8 +103,16 @@ function reducer(
       return nextState;
     }
 
-    case 'newGame':
-      return createGame(state.streak, action.originColor);
+    // A win carries its final color over to lead the next palette, and
+    // seeds the next board's flood with it. Anything else starts fresh
+    case 'nextGame': {
+      if (!isGridComplete(state.grid)) return createGame(createPalette(), state.streak);
+
+      const winColor = state.palette[getOriginColor(state.grid)];
+      const palette = promoteColor(state.palette, winColor);
+
+      return createGame(palette, state.streak, palette.indexOf(winColor));
+    }
 
     default: {
       const unhandled: never = action;
@@ -103,7 +122,7 @@ function reducer(
 }
 
 export default function useGame() {
-  const [state, dispatch] = useReducer(reducer, 0, createGame);
+  const [state, dispatch] = useReducer(reducer, null, () => createGame(createPalette()));
 
   return {
     ...state,
@@ -113,9 +132,6 @@ export default function useGame() {
       type: 'flood',
       color,
     }),
-    newGame: (originColor?: ColorIndex) => dispatch({
-      type: 'newGame',
-      originColor,
-    }),
+    nextGame: () => dispatch({ type: 'nextGame' }),
   };
 }

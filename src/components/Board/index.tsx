@@ -4,7 +4,6 @@ import {
   LOSE_BLINK_INTERVAL,
   LOST_FLOODED_COLOR,
   LOST_UNFLOODED_COLOR,
-  ORIGIN,
 } from '@/config';
 import type {
   ColorIndex,
@@ -12,6 +11,7 @@ import type {
   Mask,
   Palette,
 } from '@/types';
+import { getOriginColor } from '@/utils/grid';
 import { getCellPattern } from '@/utils/pattern';
 import style from './index.module.scss';
 
@@ -44,7 +44,7 @@ function Board({
     getCellPattern(shade)
   ));
   const lostPattern = getCellPattern(LOST_FLOODED_COLOR.shade);
-  const floodColor = palette[grid[ORIGIN[0]][ORIGIN[1]]].color;
+  const floodColor = palette[getOriginColor(grid)].color;
 
   const getCellStyle = (colorIndex: ColorIndex, isFlooded: boolean): CSSProperties => {
     if (isLost) {

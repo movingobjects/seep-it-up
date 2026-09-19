@@ -18,3 +18,11 @@ export interface PaletteColor {
 }
 
 export type Palette = PaletteColor[];
+
+// Everything needed to draw a board as it stood
+export interface BoardState {
+  grid: Grid;
+  flooded: Mask;
+  palette: Palette;
+  isLost: boolean;
+}

@@ -1,4 +1,5 @@
 import { shuffle } from '@movingobjects/utils/random';
+import { ORIGIN } from '@/config';
 import type {
   ColorIndex,
   Coord,
@@ -12,6 +13,10 @@ export function createGrid(rowCount: number, colCount: number, colorCount: numbe
       Math.floor(Math.random() * colorCount)
     ))
   ));
+}
+
+export function getOriginColor(grid: Grid): ColorIndex {
+  return grid[ORIGIN[0]][ORIGIN[1]];
 }
 
 // The in-bounds cells directly above, below, left and right of a cell
@@ -58,7 +63,7 @@ export function flood(grid: Grid, mask: Mask, color: ColorIndex): Grid {
 }
 
 export function isGridComplete(grid: Grid): boolean {
-  const color = grid[0][0];
+  const color = getOriginColor(grid);
   return grid.every((row) => row.every((cell) => cell === color));
 }
 

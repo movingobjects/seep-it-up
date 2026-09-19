@@ -11,13 +11,12 @@
   gap: 5px;
 
   span {
-    font-family: 'Sanford';
-    font-size: 25px;
-    color: colors.$heading;
     font-size: 20px;
+    color: colors.$heading;
 
     &.moveCount {
-      font-size: 30px;
+      font-size: 24px;
+      font-weight: 900;
 
       &.lost {
         color: colors.$lost;

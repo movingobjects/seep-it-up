@@ -13,7 +13,6 @@ import Header from '../Header';
 function App() {
   const {
     grid,
-    startColor,
     flooded,
     moveCount,
     par,
@@ -42,9 +41,7 @@ function App() {
       }}>
 
       <div className={style.game}>
-        <Header
-          colorIndex={startColor}
-          palette={palette} />
+        <Header />
         <div className={style.board}>
           <Board
             flooded={flooded}

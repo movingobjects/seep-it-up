@@ -62,6 +62,3 @@ export const LOST_FLOODED_COLOR: PaletteColor = {
   shade: '#333',
 };
 export const LOST_UNFLOODED_COLOR = '#333';
-
-// The logo skips palette colors darker than this HSV value (0-1)
-export const LOGO_MIN_VALUE = 0.5;

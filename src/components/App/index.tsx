@@ -34,6 +34,8 @@ function App() {
     diceRolls,
   } = useGameTransition(game);
 
+  const isActive = !outgoing && !isComplete && !isLost;
+
   return (
     <div
       className={style.wrap}
@@ -64,17 +66,20 @@ function App() {
             buildProgress={buildProgress}
             flooded={flooded}
             grid={grid}
-            isActive={!outgoing && !isComplete && !isLost}
+            isActive={isActive}
             isBlinking={isLost}
             isLost={isLost}
             palette={palette}
             onCellClick={floodWith} />
         </div>
         <Footer
+          isActive={isActive}
           isLost={isLost}
           moveCount={moveCount}
+          palette={palette}
           par={par}
-          streak={streak} />
+          streak={streak}
+          onColorClick={floodWith} />
       </div>
 
     </div>

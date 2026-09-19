@@ -6,6 +6,15 @@
   z-index: vars.$zFooter;
   height: var(--footer-height);
   display: flex;
+  align-items: flex-start;
+  gap: var(--gap);
+}
+
+.stats {
+  flex-shrink: 0;
+  height: var(--stats-height);
+  margin-left: auto;
+  display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 5px;
@@ -46,5 +55,40 @@
     width: 22px;
     height: 22px;
     color: colors.$lost;
+  }
+}
+
+.swatches {
+  flex: 1;
+  min-width: 0;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+
+  @media #{vars.$small} {
+    display: flex;
+  }
+  @media #{vars.$medium} {
+    display: flex;
+  }
+}
+
+// Shrinks to fit when the board is too narrow for the full size
+.swatch {
+  flex: 0 1 var(--swatch-size);
+  min-width: 0;
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    opacity: 0.5;
+  }
+
+  &:disabled {
+    cursor: default;
   }
 }

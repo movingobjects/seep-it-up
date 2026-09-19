@@ -2,13 +2,16 @@
 @use '@/styles/vars';
 
 .wrap {
-  --padding: 50px;
+  --padding: 75px;
   --title-height: 30px;
-  --footer-height: 25px;
+  --stats-height: 25px;
+  --footer-height: var(--stats-height);
   --gap: 10px;
+  --cell-snap: #{vars.$cell-size-pixel-snap * 1px};
 
   width: 100vw;
-  height: 100vh;
+  // Excludes the browser's own toolbars on mobile
+  height: 100dvh;
   padding: var(--padding);
   display: flex;
   align-items: center;
@@ -18,6 +21,20 @@
     ui-sans-serif,
     "San Francisco",
     sans-serif;
+
+  @media #{vars.$small} {
+    --padding: 15px;
+    --swatch-size: 45px;
+    --footer-height: var(--swatch-size);
+    --cell-snap: #{vars.$cell-size-pixel-snap-small * 1px};
+  }
+
+  @media #{vars.$medium} {
+    --padding: 50px;
+    --swatch-size: 50px;
+    --footer-height: var(--swatch-size);
+    --cell-snap: #{vars.$cell-size-pixel-snap-small * 1px};
+  }
 }
 
 .game {
@@ -33,7 +50,7 @@
       100cqw / var(--board-cols),
       (100cqh - var(--title-height) - var(--footer-height) - 2 * var(--gap)) / var(--board-rows)
     ),
-    #{vars.$cell-size-pixel-snap * 1px}
+    var(--cell-snap)
   );
 
   display: flex;

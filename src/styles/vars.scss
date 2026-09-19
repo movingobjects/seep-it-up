@@ -4,6 +4,14 @@ $zHeader: 200;
 $zFooter: 200;
 
 $cell-size-pixel-snap: 4;
+// Small screens can't spare the width that rounding to 4px throws away
+$cell-size-pixel-snap-small: 1;
 
 // Viewports narrower than this lay the board out tall
 $portrait: '(max-aspect-ratio: 4 / 5)';
+
+// Phone-sized viewports
+$small: '(max-width: 600px)';
+
+// Tablet-sized viewports
+$medium: '(min-width: 601px) and (max-width: 1024px)';
